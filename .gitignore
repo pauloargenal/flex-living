@@ -15,3 +15,9 @@ npm-debug.log*
 .DS_Store
 *.ppk
 *.pem
+
+# Environment variables
+.env.local
+.env
+# Production environment variables
+.env.production

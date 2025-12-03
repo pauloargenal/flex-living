@@ -157,7 +157,7 @@ export default async function IndexPage() {
                 flex items-center gap-2"
             >
               {landing.viewProperties}
-              <Trash2Icon className="w-5 h-5" />
+              <HouseIcon className="w-5 h-5" />
             </Link>
           </div>
         </div>

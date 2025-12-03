@@ -10,15 +10,13 @@ import { getLocale } from '@/utils/get-locales';
 import { getUniqueListings } from '@/data/mock-reviews';
 import { propertyImages, propertyDescriptions } from '@/data/properties';
 import { BrandLogo } from '@/components/brand-logo';
-import { StarRating } from '@/components/star-rating';
 
 export const metadata: Metadata = {
   title: 'Properties | Flex Living',
   description: 'Explore our collection of premium serviced apartments across London'
 };
 
-const AVATAR_SEEDS = `https://i.pravatar.cc/32?img=`;
-
+const AVATAR_SEEDS = process.env.NEXT_PUBLIC_AVATAR_SEEDS;
 export default async function PropertiesPage() {
   const { common, properties } = await getLocale();
   const listings = getUniqueListings();

@@ -7,7 +7,7 @@ import { getLocale } from '@/utils/get-locales';
 import { getPropertyById, getAllPropertyIds } from '@/data/properties';
 import { BrandLogo } from '@/components/brand-logo';
 import { StarRating } from '@/components/star-rating';
-import { PropertyGalleryWidget } from '@/app/properties/widgets/property-gallery-widget';
+import { PropertyGalleryWidget } from '@/app/properties/[id]/widgets/property-gallery-widget';
 import { PropertyBookingWidget } from '@/app/properties/[id]/widgets/property-booking-widget';
 import { PropertyReviewsWidget } from '@/app/properties/widgets/property-reviews-widget';
 import { Footer } from '@/components/footer';
@@ -47,7 +47,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <header className="bg-white border-b border-black-10 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -85,13 +84,10 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
       <BreadCrumbs locales={common} title={property.name} />
 
-      {/* Property Hero */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Image Gallery (Client Component) */}
           <PropertyGalleryWidget images={property.images} propertyName={property.name} />
 
-          {/* Property Info */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <div className="flex items-start justify-between gap-4 mb-6">
@@ -112,7 +108,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
               <p className="text-black-70 leading-relaxed mb-8">{property.description}</p>
 
-              {/* Features */}
               <div className="bg-black-5 rounded-2xl p-6 mb-8">
                 <h3 className="font-semibold text-black-100 mb-4">{propertyDetail.amenities}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -126,7 +121,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               </div>
             </div>
 
-            {/* Booking Card (Client Component) */}
             <div className="lg:col-span-1" id="book">
               <PropertyBookingWidget price={property.price} locale={propertyDetail} />
             </div>
@@ -134,7 +128,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
         </div>
       </section>
 
-      {/* Reviews Section */}
       <section className="py-12 bg-black-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <PropertyReviewsWidget listingId={params.id} locale={propertyDetail} />

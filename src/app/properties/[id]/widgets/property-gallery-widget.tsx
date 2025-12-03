@@ -22,7 +22,8 @@ export function PropertyGalleryWidget({ images, propertyName }: PropertyGalleryW
       <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
         {images.slice(0, 2).map((img, index) => (
           <button
-            key={index}
+            type="button"
+            key={img}
             onClick={() => setSelectedImage(index)}
             className={`rounded-xl overflow-hidden h-32 lg:h-44 border-2 transition-all
               ${
@@ -31,7 +32,7 @@ export function PropertyGalleryWidget({ images, propertyName }: PropertyGalleryW
                   : 'border-transparent hover:border-black-20'
               }`}
           >
-            <img src={img} alt="" className="w-full h-full object-cover" />
+            <img src={img} alt={propertyName} className="w-full h-full object-cover" />
           </button>
         ))}
       </div>
