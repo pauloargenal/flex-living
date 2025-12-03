@@ -5,11 +5,9 @@ import {
   ArrowRight,
   ChartBarIcon,
   Check,
-  FilterIcon,
   GlobeIcon,
   HouseIcon,
-  SearchCheckIcon,
-  Trash2Icon
+  SearchCheckIcon
 } from 'lucide-react';
 
 import { getLocale } from '@/utils/get-locales';
