@@ -68,7 +68,7 @@ export function DashboardReviewCard({
 
   return (
     <div
-      className={`bg-white rounded-xl shadow-sm border border-black-10 border-l-4 ${sentimentClass} 
+      className={`bg-white rounded-xl shadow-sm border border-black-10 border-l-4 relative flex flex-col gap-4 ${sentimentClass} 
         hover:shadow-md transition-all duration-200 ${selected ? 'ring-2 ring-green-100' : ''}`}
     >
       <div className="p-4 border-b border-black-10">
@@ -119,7 +119,7 @@ export function DashboardReviewCard({
         </div>
       )}
 
-      <div className="px-4 py-3 border-t border-black-10 bg-black-5 rounded-b-xl flex items-center justify-between">
+      <div className="px-4 py-3 border-t border-black-10 bg-black-5 rounded-b-xl flex items-center justify-between mt-auto">
         <div className="flex items-center gap-2">
           <span
             className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
