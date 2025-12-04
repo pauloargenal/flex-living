@@ -15,10 +15,11 @@
     "node": "22.19.0"
   },
   "dependencies": {
+    "eslint-config-next": "^16.0.7",
     "lucide-react": "^0.555.0",
-    "next": "13.5.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "server-only": "0.0.1",
     "zod": "3.22.4"
   },
