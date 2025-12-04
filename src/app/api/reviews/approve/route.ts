@@ -3,10 +3,13 @@ import path from 'path';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-// Path to the JSON file that stores approved review IDs
+// Check if running on Vercel (production)
+// adding this logic since filesystem is read-only on Vercel env
+const IS_VERCEL = process.env.VERCEL === '1';
+
+// Path to the JSON file that stores approved review IDs (for local development)
 const DATA_FILE = path.join(process.cwd(), 'src/data/approved-reviews.json');
 
-// Default approved review IDs (used when file doesn't exist)
 const DEFAULT_APPROVED_IDS = [
   // Original properties
   7453, 7455, 7457, 7458, 7460, 7461, 7463, 7466, 7467, 7468, 7469, 7472, 7474, 7478,
@@ -32,10 +35,17 @@ const DEFAULT_APPROVED_IDS = [
   7497, 7498
 ];
 
+// In-memory storage for deployed version
+const inMemoryApprovedIds = new Set<number>(DEFAULT_APPROVED_IDS);
+
 /**
- * Read approved review IDs from file
+ * Read approved review IDs from file (local) or memory (production)
  */
 async function readApprovedIds(): Promise<Set<number>> {
+  if (IS_VERCEL) {
+    return inMemoryApprovedIds;
+  }
+
   try {
     const data = await fs.readFile(DATA_FILE, 'utf-8');
     const ids = JSON.parse(data);
@@ -50,6 +60,12 @@ async function readApprovedIds(): Promise<Set<number>> {
  * Write approved review IDs to file
  */
 async function writeApprovedIds(ids: Set<number>): Promise<void> {
+  if (IS_VERCEL) {
+    inMemoryApprovedIds.clear();
+    ids.forEach((id) => inMemoryApprovedIds.add(id));
+    return;
+  }
+
   const data = JSON.stringify(Array.from(ids), null, 2);
   await fs.writeFile(DATA_FILE, data, 'utf-8');
 }
