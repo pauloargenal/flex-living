@@ -2,14 +2,13 @@
 
 ## Table of Contents
 
-1. [Architecture Overview](#architecture-overview)
-2. [Key Design Decisions](#key-design-decisions)
-3. [Data Flow](#data-flow)
-4. [Review Normalization](#review-normalization)
-5. [Trend & Issue Detection](#trend--issue-detection)
-6. [Approval System](#approval-system)
-7. [Environment-Specific Logic](#environment-specific-logic)
-8. [Areas for Improvement](#areas-for-improvement)
+1. [Key Design Decisions](#key-design-decisions)
+2. [Data Flow](#data-flow)
+3. [Review Normalization](#review-normalization)
+4. [Trend & Issue Detection](#trend--issue-detection)
+5. [Approval System](#approval-system)
+6. [Environment-Specific Logic](#environment-specific-logic)
+7. [Areas for Improvement](#areas-for-improvement)
 
 ## Key Design Decisions
 
