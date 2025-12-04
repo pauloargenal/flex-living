@@ -87,7 +87,7 @@ export function PropertyReviewsWidget({ listingId, locale }: PropertyReviewsWidg
           <h2 className="text-2xl font-bold text-black-100">{locale.title}</h2>
           {stats && stats.totalReviews > 0 && (
             <p className="text-black-60 mt-1">
-              {stats.totalReviews} {locale['reviews.verifiedReviews']} {stats.averageRating}
+              {stats.totalReviews} {locale['reviews.verifiedReviews']} {stats.averageRating}{' '}
               {locale['reviews.averageRating']}
             </p>
           )}

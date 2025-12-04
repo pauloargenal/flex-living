@@ -8,7 +8,7 @@ import { DashboardReviewCard } from './widgets/dashboard-review-card';
 import { DashboardAnalytics } from './widgets/dashboard-analytics';
 
 import { LoadingSpinner } from '@/components/loading-spinner';
-import { useReviews } from '@/hooks/use-reviews';
+import { useFetchReviews } from '@/hooks/use-fetch-reviews';
 
 interface DashboardWidgetProps {
   locale: Record<string, string>;
@@ -42,7 +42,7 @@ export function DashboardLayout({
     handleSelectReview,
     handleBulkApprove,
     refetch
-  } = useReviews();
+  } = useFetchReviews();
 
   const refreshTime = useMemo(() => {
     return locale.dataRefreshed && `${locale.dataRefreshed}: ${new Date().toLocaleTimeString()}`;

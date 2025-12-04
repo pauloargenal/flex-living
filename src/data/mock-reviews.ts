@@ -1,6 +1,6 @@
 import { HostawayReview } from '@/types/review';
 
-// Realistic mock review data for Flex Living properties
+// Mock reviews for Hostaway API
 export const mockHostawayReviews: HostawayReview[] = [
   {
     id: 7453,

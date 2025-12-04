@@ -134,4 +134,40 @@ export interface PropertyData {
   description: string;
   features: string[];
   images: string[];
+  rating: string;
+  googlePlaceId?: string;
+}
+
+// Google Places API Review Types
+export interface GoogleReviewAuthorAttribution {
+  displayName: string;
+  uri: string;
+  photoUri: string;
+}
+
+export interface GoogleReview {
+  name: string;
+  relativePublishTimeDescription: string;
+  rating: number;
+  text: {
+    text: string;
+    languageCode: string;
+  };
+  originalText?: {
+    text: string;
+    languageCode: string;
+  };
+  authorAttribution: GoogleReviewAuthorAttribution;
+  publishTime: string;
+}
+
+export interface GooglePlaceDetails {
+  id: string;
+  displayName: {
+    text: string;
+    languageCode: string;
+  };
+  rating: number;
+  userRatingCount: number;
+  reviews: GoogleReview[];
 }

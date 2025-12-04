@@ -32,7 +32,8 @@ const channelColors: Record<string, string> = {
   'booking.com': 'bg-[#003580] text-white',
   vrbo: 'bg-[#3D67FF] text-white',
   direct: 'bg-green-100 text-white',
-  expedia: 'bg-[#00355F] text-white'
+  expedia: 'bg-[#00355F] text-white',
+  google: 'bg-[#4285F4] text-white'
 };
 
 const sentimentColors: Record<string, string> = {

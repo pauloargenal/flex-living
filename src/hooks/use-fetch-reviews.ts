@@ -14,6 +14,7 @@ import {
   fetchReviews,
   fetchListings,
   fetchChannels,
+  fetchGoogleReviews,
   toggleReviewApproval,
   bulkUpdateApproval
 } from '@/services/reviews-service';
@@ -42,7 +43,7 @@ interface UseReviewsReturn {
   refetch: () => Promise<void>;
 }
 
-export function useReviews(): UseReviewsReturn {
+export function useFetchReviews(): UseReviewsReturn {
   const [reviews, setReviews] = useState<NormalizedReview[]>([]);
   const [analytics, setAnalytics] = useState<PropertyAnalytics[]>([]);
   const [listings, setListings] = useState<Listing[]>([]);
@@ -55,15 +56,84 @@ export function useReviews(): UseReviewsReturn {
   const [sort, setSort] = useState<SortOptions>({ field: 'date', direction: 'desc' });
   const [selectedReviews, setSelectedReviews] = useState<Set<number>>(new Set());
 
-  const loadReviews = useCallback(async () => {
+  const handleLoadReviews = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await fetchReviews({ filters, sort, pageSize: 50 });
-      setReviews(result.reviews);
-      setAnalytics(result.analytics);
-      setMeta(result.meta);
+      // Fetch both Hostaway and Google reviews in parallel
+      const [hostawayResult, googleReviewsRaw] = await Promise.all([
+        fetchReviews({ filters, sort, pageSize: 50 }),
+        !filters.channel || filters.channel === 'google'
+          ? fetchGoogleReviews()
+          : Promise.resolve([])
+      ]);
+
+      const hostawayReviews = hostawayResult.reviews.map((review) => ({
+        ...review,
+        submittedAt: new Date(review.submittedAt)
+      }));
+
+      const googleReviews = googleReviewsRaw.map((review) => ({
+        ...review,
+        submittedAt: new Date(review.submittedAt)
+      }));
+
+      // Merge reviews from both sources
+      let allReviews = [...hostawayReviews];
+
+      // Add Google reviews if not filtering by a non-Google channel
+      if (!filters.channel || filters.channel === 'google') {
+        const filteredGoogleReviews = googleReviews.filter((review) => {
+          if (filters.minRating && review.overallRating && review.overallRating < filters.minRating)
+            return false;
+          if (filters.maxRating && review.overallRating && review.overallRating > filters.maxRating)
+            return false;
+          if (filters.sentiment && review.sentiment !== filters.sentiment) return false;
+          if (filters.searchQuery) {
+            const query = filters.searchQuery.toLowerCase();
+            const searchText =
+              `${review.publicReview} ${review.guestName} ${review.listingName}`.toLowerCase();
+            if (!searchText.includes(query)) return false;
+          }
+          return true;
+        });
+
+        // If filtering specifically for Google, only show Google reviews
+        if (filters.channel === 'google') {
+          allReviews = filteredGoogleReviews;
+        } else {
+          allReviews = [...hostawayReviews, ...filteredGoogleReviews];
+        }
+      }
+
+      // Sort combined reviews
+      allReviews.sort((reviewA, reviewB) => {
+        let comparison = 0;
+        switch (sort.field) {
+          case 'date':
+            comparison = reviewA.submittedAt.getTime() - reviewB.submittedAt.getTime();
+            break;
+          case 'rating':
+            comparison = (reviewA.overallRating ?? 0) - (reviewB.overallRating ?? 0);
+            break;
+          case 'guestName':
+            comparison = reviewA.guestName.localeCompare(reviewB.guestName);
+            break;
+          case 'listingName':
+            comparison = reviewA.listingName.localeCompare(reviewB.listingName);
+            break;
+        }
+        return sort.direction === 'desc' ? -comparison : comparison;
+      });
+
+      setReviews(allReviews);
+      setAnalytics(hostawayResult.analytics);
+      setMeta({
+        ...hostawayResult.meta,
+        total: hostawayResult.meta.total + googleReviewsRaw.length,
+        filtered: allReviews.length
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch reviews');
     } finally {
@@ -71,7 +141,7 @@ export function useReviews(): UseReviewsReturn {
     }
   }, [filters, sort]);
 
-  const loadMetadata = useCallback(async () => {
+  const handleLoadMetaData = useCallback(async () => {
     try {
       const [listingsData, channelsData] = await Promise.all([fetchListings(), fetchChannels()]);
       setListings(listingsData);
@@ -82,12 +152,12 @@ export function useReviews(): UseReviewsReturn {
   }, []);
 
   useEffect(() => {
-    loadMetadata();
-  }, [loadMetadata]);
+    handleLoadMetaData();
+  }, [handleLoadMetaData]);
 
   useEffect(() => {
-    loadReviews();
-  }, [loadReviews]);
+    handleLoadReviews();
+  }, [handleLoadReviews]);
 
   const handleApprovalToggle = useCallback(async (reviewId: number, approved: boolean) => {
     try {
@@ -151,6 +221,6 @@ export function useReviews(): UseReviewsReturn {
     handleApprovalToggle,
     handleSelectReview,
     handleBulkApprove,
-    refetch: loadReviews
+    refetch: handleLoadReviews
   };
 }

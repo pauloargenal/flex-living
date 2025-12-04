@@ -10,6 +10,16 @@ import type {
   ReviewStats
 } from '@/types/review';
 
+export interface GoogleReviewsResponse {
+  success: boolean;
+  data: NormalizedReview[];
+  meta: {
+    total: number;
+    source: string;
+    placeId?: string;
+  };
+}
+
 export interface FetchReviewsParams {
   filters?: ReviewFilters;
   sort?: SortOptions;
@@ -111,6 +121,28 @@ export async function fetchChannels(): Promise<Channel[]> {
 
   if (!data.success) {
     throw new Error('Failed to fetch channels');
+  }
+
+  // Add Google as a channel option
+  const channels = data.data as Channel[];
+  if (!channels.some((channel) => channel.id === 'google')) {
+    channels.push({ id: 'google', name: 'Google' });
+  }
+
+  return channels;
+}
+
+export async function fetchGoogleReviews(listingName?: string): Promise<NormalizedReview[]> {
+  const params = new URLSearchParams();
+  if (listingName) {
+    params.set('listingName', listingName);
+  }
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/google?${params.toString()}`);
+  const data: GoogleReviewsResponse = await response.json();
+
+  if (!data.success) {
+    return [];
   }
 
   return data.data;

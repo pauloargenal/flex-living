@@ -4,7 +4,9 @@ export const propertyData: Record<string, PropertyData> = {
   '2b-n1-a-29-shoreditch-heights': {
     name: '2B N1 A - 29 Shoreditch Heights',
     location: 'Shoreditch, London E1',
+    rating: '4.8',
     price: '£175',
+    googlePlaceId: 'ChIJuYlRxSYbdkgRqVQ0mQU1Agc',
     description:
       'Experience urban living at its finest in this stunning 2-bedroom apartment in the heart of Shoreditch. Floor-to-ceiling windows offer breathtaking city views, while the modern interior design creates a sophisticated atmosphere. Steps away from the best restaurants, bars, and galleries London has to offer.',
     features: [
@@ -26,7 +28,9 @@ export const propertyData: Record<string, PropertyData> = {
   'luxury-suite-canary-wharf-tower': {
     name: 'Luxury Suite - Canary Wharf Tower',
     location: 'Canary Wharf, London E14',
+    rating: '3.8',
     price: '£225',
+    googlePlaceId: 'ChIJr1Hk1csDdkgRZaVG8HqWfQE',
     description:
       "An executive suite perfect for business travelers, located in the heart of London's financial district. Enjoy panoramic views from the 25th floor, premium furnishings, and immediate access to world-class dining and shopping. The building features a state-of-the-art gym and 24-hour concierge.",
     features: [
@@ -48,7 +52,9 @@ export const propertyData: Record<string, PropertyData> = {
   'elegant-garden-flat-kensington': {
     name: 'Elegant Garden Flat - Kensington',
     location: 'Kensington, London W8',
+    rating: '4.5',
     price: '£275',
+    googlePlaceId: 'ChIJk1s6SZcFdkgRQSCX0m0GXQ8',
     description:
       'A beautifully restored Victorian flat with a private garden, located in prestigious Kensington. Period features blend seamlessly with modern amenities. Walking distance to Kensington Gardens, the Royal Albert Hall, and world-renowned museums. Perfect for families and couples seeking a quintessential London experience.',
     features: [
@@ -70,7 +76,9 @@ export const propertyData: Record<string, PropertyData> = {
   'industrial-loft-camden-town': {
     name: 'Industrial Loft - Camden Town',
     location: 'Camden Town, London NW1',
+    rating: '4.2',
     price: '£165',
+    googlePlaceId: 'ChIJIzZb0fIadkgRhHvGaXWOo-k',
     description:
       'A unique loft conversion in the heart of vibrant Camden. Exposed brick walls, high ceilings, and industrial-chic design create an unforgettable atmosphere. Steps from Camden Market, the famous music venues, and excellent transport links. Ideal for creative souls and music lovers.',
     features: [
@@ -92,7 +100,9 @@ export const propertyData: Record<string, PropertyData> = {
   'cozy-studio-greenwich-village': {
     name: 'Cozy Studio - Greenwich Village',
     location: 'Greenwich, London SE10',
+    rating: '4.0',
     price: '£125',
+    googlePlaceId: 'ChIJN1JYRtqp2EcRAAz0vrl1-PE',
     description:
       'A perfectly formed studio apartment in historic Greenwich. Modern, efficient, and thoughtfully designed with everything you need for a comfortable stay. Walking distance to Greenwich Park, the Cutty Sark, and the Prime Meridian. Excellent value with outstanding quality.',
     features: [
@@ -114,7 +124,9 @@ export const propertyData: Record<string, PropertyData> = {
   'premium-penthouse-westminster': {
     name: 'Premium Penthouse - Westminster',
     location: 'Westminster, London SW1',
+    rating: '4.7',
     price: '£450',
+    googlePlaceId: 'ChIJCUGhRccEdkgRQkxDwsqAOz0',
     description:
       'The pinnacle of London living. This extraordinary penthouse offers unparalleled views of Westminster Abbey, Big Ben, and the London Eye. A private terrace, designer interiors, and white-glove service create an experience reserved for the most discerning guests. Truly exceptional.',
     features: [
@@ -136,7 +148,9 @@ export const propertyData: Record<string, PropertyData> = {
   'riverside-apartment-southbank': {
     name: 'Riverside Apartment - Southbank',
     location: 'Southbank, London SE1',
+    rating: '4.3',
     price: '£195',
+    googlePlaceId: 'ChIJLxrzT8UEdkgRsFQmVxqWDZk',
     description:
       "Wake up to stunning Thames views in this modern riverside apartment. Located on the vibrant Southbank, you are steps from the Tate Modern, Shakespeare's Globe, and Borough Market. The open-plan living area floods with natural light, making it perfect for both relaxation and entertaining.",
     features: [
@@ -158,7 +172,9 @@ export const propertyData: Record<string, PropertyData> = {
   'modern-flat-kings-cross': {
     name: 'Modern Flat - Kings Cross',
     location: 'Kings Cross, London N1C',
+    rating: '4.1',
     price: '£155',
+    googlePlaceId: 'ChIJP8l2OfMbdkgRzOFZP8VFcbQ',
     description:
       'A sleek, contemporary apartment in the regenerated Kings Cross area. Perfect for Eurostar travelers with St Pancras International just minutes away. Enjoy the buzzing Coal Drops Yard, Granary Square, and excellent transport links to anywhere in London.',
     features: [
@@ -180,7 +196,9 @@ export const propertyData: Record<string, PropertyData> = {
   'victorian-townhouse-notting-hill': {
     name: 'Victorian Townhouse - Notting Hill',
     location: 'Notting Hill, London W11',
+    rating: '4.6',
     price: '£320',
+    googlePlaceId: 'ChIJYTN3bJsPdkgR8mVJ-IIgFgk',
     description:
       "Live like a local in this charming Victorian townhouse on one of Notting Hill's most picturesque streets. Original features meet contemporary comfort across three floors. Perfect for families or groups wanting space and character in one of London's most desirable neighborhoods.",
     features: [
@@ -202,7 +220,9 @@ export const propertyData: Record<string, PropertyData> = {
   'art-deco-suite-marylebone': {
     name: 'Art Deco Suite - Marylebone',
     location: 'Marylebone, London W1U',
+    rating: '4.4',
     price: '£245',
+    googlePlaceId: 'ChIJu7LQipQcdkgRZMt4G-Kpmdk',
     description:
       'A stunning Art Deco inspired suite in the heart of Marylebone village. Exquisite period details meet modern luxury in this beautifully restored apartment. Surrounded by boutique shops, cafes, and the famous Marylebone High Street. A true hidden gem.',
     features: [
@@ -224,7 +244,9 @@ export const propertyData: Record<string, PropertyData> = {
   'docklands-executive-apartment': {
     name: 'Docklands Executive Apartment',
     location: 'Royal Docks, London E16',
+    rating: '4.0',
     price: '£145',
+    googlePlaceId: 'ChIJTcaUwg0DdkgRDiXwQJcbj7U',
     description:
       'A spacious executive apartment overlooking the Royal Docks. Modern, bright, and perfect for extended stays. Excellent value with easy access to ExCeL London and London City Airport. The neighborhood offers waterside walks and a growing food scene.',
     features: [
@@ -246,7 +268,9 @@ export const propertyData: Record<string, PropertyData> = {
   'chelsea-garden-apartment': {
     name: 'Chelsea Garden Apartment',
     location: 'Chelsea, London SW3',
+    rating: '4.2',
     price: '£285',
+    googlePlaceId: 'ChIJdxQlqZQFdkgRhQEVL0Bwfaw',
     description:
       "An elegant garden-level apartment in prestigious Chelsea. Enjoy your morning coffee in the private courtyard garden before exploring the King's Road boutiques. Classic English style with modern amenities, perfect for those seeking refined London living.",
     features: [
@@ -268,7 +292,9 @@ export const propertyData: Record<string, PropertyData> = {
   'clerkenwell-warehouse-conversion': {
     name: 'Clerkenwell Warehouse Conversion',
     location: 'Clerkenwell, London EC1R',
+    rating: '4.3',
     price: '£185',
+    googlePlaceId: 'ChIJCQuSiJAbdkgRg8X7sLLlHIA',
     description:
       "A spectacular warehouse conversion in trendy Clerkenwell. Double-height ceilings, original timber beams, and industrial windows create an inspiring space. Surrounded by design studios, artisan coffee shops, and Exmouth Market's food stalls.",
     features: [
@@ -290,7 +316,9 @@ export const propertyData: Record<string, PropertyData> = {
   'hampstead-heath-retreat': {
     name: 'Hampstead Heath Retreat',
     location: 'Hampstead, London NW3',
+    rating: '4.5',
     price: '£210',
+    googlePlaceId: 'ChIJ62-v7-4YdkgRfTWVZGT-AGQ',
     description:
       "Escape the city without leaving it in this charming apartment near Hampstead Heath. Wake up to birdsong, enjoy morning swims at the bathing ponds, then stroll through the village's cafes and bookshops. Perfect for nature lovers seeking a peaceful base.",
     features: [
@@ -312,7 +340,9 @@ export const propertyData: Record<string, PropertyData> = {
   'brixton-creative-studio': {
     name: 'Brixton Creative Studio',
     location: 'Brixton, London SW9',
+    rating: '4.1',
     price: '£115',
+    googlePlaceId: 'ChIJM9KKlGkOdkgRCqzxSiKFnpY',
     description:
       'A vibrant studio apartment in the heart of multicultural Brixton. Perfect for solo travelers and couples seeking authentic London culture. Steps from Brixton Village Market, live music venues, and the famous Brixton Academy. Excellent value in a buzzing neighborhood.',
     features: [
@@ -334,7 +364,9 @@ export const propertyData: Record<string, PropertyData> = {
   'tower-bridge-luxury-flat': {
     name: 'Tower Bridge Luxury Flat',
     location: 'Tower Bridge, London SE1',
+    rating: '4.6',
     price: '£265',
+    googlePlaceId: 'ChIJbQF2B7oDdkgRJb_aSMhqAAs',
     description:
       "Live with an iconic view in this luxury apartment overlooking Tower Bridge. Watch the bridge raise from your living room while enjoying premium finishes throughout. Historic charm meets contemporary luxury in one of London's most photographed locations.",
     features: [
