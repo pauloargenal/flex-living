@@ -14,7 +14,7 @@ import { Footer } from '@/components/footer';
 import BreadCrumbs from '@/components/bread-crumbs';
 
 interface PropertyDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PropertyDetailPageProps): Promise<Metadata> {
-  const property = getPropertyById(params.id);
+  const { id } = await params;
+  const property = getPropertyById(id);
 
   if (!property) {
     return { title: 'Property Not Found' };
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }: PropertyDetailPageProps): Pro
 }
 
 export default async function PropertyDetailPage({ params }: PropertyDetailPageProps) {
-  const property = getPropertyById(params.id);
+  const { id } = await params;
+  const property = getPropertyById(id);
 
   if (!property) {
     notFound();
@@ -130,7 +132,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
       <section className="py-12 bg-black-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PropertyReviewsWidget listingId={params.id} locale={propertyDetail} />
+          <PropertyReviewsWidget listingId={id} locale={propertyDetail} />
         </div>
       </section>
 
