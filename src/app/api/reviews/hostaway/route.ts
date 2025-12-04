@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { mockHostawayReviews, getUniqueListings, getUniqueChannels } from '@/data/mock-reviews';
+import { mockHostawayReviews } from '@/data/mock-reviews';
 import {
   normalizeReviews,
   filterReviews,
@@ -129,26 +129,4 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ success: false, error: 'Failed to fetch reviews' }, { status: 500 });
   }
-}
-
-/**
- * GET /api/reviews/hostaway/listings
- * Returns list of unique listings
- */
-export async function listings() {
-  return NextResponse.json({
-    success: true,
-    data: getUniqueListings()
-  });
-}
-
-/**
- * GET /api/reviews/hostaway/channels
- * Returns list of unique channels
- */
-export async function channels() {
-  return NextResponse.json({
-    success: true,
-    data: getUniqueChannels()
-  });
 }

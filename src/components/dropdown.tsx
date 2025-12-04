@@ -1,12 +1,12 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useState, useEffect, useMemo, ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 interface DropdownOption {
   value: string;
   label: string;
-  element?: JSX.Element;
+  element?: ReactNode;
 }
 
 interface DropdownProps {

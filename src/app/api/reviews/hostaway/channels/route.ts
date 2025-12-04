@@ -2,21 +2,26 @@ import { NextResponse } from 'next/server';
 
 import { getUniqueChannels } from '@/data/mock-reviews';
 
+/**
+ * GET /api/reviews/hostaway/channels
+ * Returns list of unique channels
+ */
 export async function GET() {
-  try {
-    const channels = getUniqueChannels();
+  const channelNames = getUniqueChannels();
 
-    return NextResponse.json({
-      success: true,
-      data: channels.map((channel) => ({
-        id: channel,
-        name: channel.charAt(0).toUpperCase() + channel.slice(1)
-      }))
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch channels' },
-      { status: 500 }
-    );
+  // Convert to channel objects with id and name
+  const channels = channelNames.map((name) => ({
+    id: name,
+    name: name.charAt(0).toUpperCase() + name.slice(1)
+  }));
+
+  // Add Google as a channel option
+  if (!channels.some((channel) => channel.id === 'google')) {
+    channels.push({ id: 'google', name: 'Google' });
   }
+
+  return NextResponse.json({
+    success: true,
+    data: channels
+  });
 }
