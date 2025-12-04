@@ -16,8 +16,6 @@ npm-debug.log*
 *.ppk
 *.pem
 
-# Environment variables
-.env.local
-.env
+
 # Production environment variables
 .env.production
