@@ -64,14 +64,14 @@ open http://localhost:3000
 
 ## Tech Stack
 
-- **Next.js 13** - React framework with App Router
+- **Next.js 16** - React framework with App Router
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first styling
 - **Zod** - Runtime validation
 
 ## Documentation
 
-See [DOCUMENTATION.md](./DOCUMENTATION.md) for detailed documentation including design decisions, API behaviors, and Google Reviews findings.
+See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed documentation including design decisions, API behaviors, and Google Reviews findings.
 
 ## Scripts
 
@@ -82,7 +82,3 @@ npm run start    # Production server
 npm run lint     # ESLint
 npm run test     # Tests
 ```
-
-## License
-
-© 2024 Flex Living. All rights reserved.
