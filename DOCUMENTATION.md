@@ -289,7 +289,7 @@ async function fetchHostawayReviews() {
 
 ## Areas For Improvement
 
-- To persist approvals in production, integrate a database.
+- Update JSON storage to persist approvals in production, integrate a database.
 - Server side logic to code split and make it more robust
 
 ---
