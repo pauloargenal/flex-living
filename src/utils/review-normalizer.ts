@@ -1,5 +1,9 @@
+import { formatDate } from './date/format-date';
+import { determineSentiment } from './determine-rating';
+
 import {
   HostawayReview,
+  GoogleReview,
   NormalizedReview,
   NormalizedReviewCategory,
   PropertyAnalytics,
@@ -25,18 +29,9 @@ const channelInfo: Record<string, { icon: string; label: string }> = {
   'booking.com': { icon: '🅱️', label: 'Booking.com' },
   vrbo: { icon: '🏡', label: 'VRBO' },
   direct: { icon: '🔗', label: 'Direct Booking' },
-  expedia: { icon: '✈️', label: 'Expedia' }
+  expedia: { icon: '✈️', label: 'Expedia' },
+  google: { icon: '🔍', label: 'Google' }
 };
-
-/**
- * Determines sentiment based on rating
- */
-function determineSentiment(rating: number | null): 'positive' | 'neutral' | 'negative' {
-  if (rating === null) return 'neutral';
-  if (rating >= 4) return 'positive';
-  if (rating >= 3) return 'neutral';
-  return 'negative';
-}
 
 /**
  * Generates a listing ID from listing name
@@ -46,18 +41,6 @@ function generateListingId(listingName: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '-')
     .replace(/-+/g, '-');
-}
-
-/**
- * Formats date for display
- */
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  });
 }
 
 /**
@@ -247,27 +230,27 @@ export function calculatePropertyAnalytics(reviews: NormalizedReview[]): Propert
 
   listingsMap.forEach((listingReviews, listingId) => {
     // Only consider guest-to-host reviews for analytics
-    const guestReviews = listingReviews.filter((r) => r.type === 'guest-to-host');
+    const guestReviews = listingReviews.filter((review) => review.type === 'guest-to-host');
 
     if (guestReviews.length === 0) return;
 
     // Calculate average rating
-    const ratingsWithValue = guestReviews.filter((r) => r.overallRating !== null);
+    const ratingsWithValue = guestReviews.filter((review) => review.overallRating !== null);
     const averageRating =
       ratingsWithValue.length > 0
-        ? ratingsWithValue.reduce((sum, r) => sum + (r.overallRating || 0), 0) /
+        ? ratingsWithValue.reduce((sum, review) => sum + (review.overallRating || 0), 0) /
           ratingsWithValue.length
         : 0;
 
     // Calculate category averages
     const categoryTotals: Record<string, { sum: number; count: number }> = {};
     guestReviews.forEach((review) => {
-      review.categories.forEach((cat) => {
-        if (!categoryTotals[cat.displayName]) {
-          categoryTotals[cat.displayName] = { sum: 0, count: 0 };
+      review.categories.forEach((category) => {
+        if (!categoryTotals[category.displayName]) {
+          categoryTotals[category.displayName] = { sum: 0, count: 0 };
         }
-        categoryTotals[cat.displayName].sum += cat.rating;
-        categoryTotals[cat.displayName].count += 1;
+        categoryTotals[category.displayName].sum += category.rating;
+        categoryTotals[category.displayName].count += 1;
       });
     });
 
@@ -285,7 +268,7 @@ export function calculatePropertyAnalytics(reviews: NormalizedReview[]): Propert
 
     // Determine trend (comparing last 3 reviews to previous 3)
     const sortedByDate = [...guestReviews].sort(
-      (a, b) => b.submittedAt.getTime() - a.submittedAt.getTime()
+      (reviewA, reviewB) => reviewB.submittedAt.getTime() - reviewA.submittedAt.getTime()
     );
 
     let recentTrend: 'improving' | 'stable' | 'declining' = 'stable';
@@ -293,13 +276,13 @@ export function calculatePropertyAnalytics(reviews: NormalizedReview[]): Propert
       const recentAvg =
         sortedByDate
           .slice(0, 3)
-          .filter((r) => r.overallRating)
-          .reduce((sum, r) => sum + (r.overallRating || 0), 0) / 3;
+          .filter((review) => review.overallRating)
+          .reduce((sum, review) => sum + (review.overallRating || 0), 0) / 3;
       const previousAvg =
         sortedByDate
           .slice(3, 6)
-          .filter((r) => r.overallRating)
-          .reduce((sum, r) => sum + (r.overallRating || 0), 0) / 3;
+          .filter((review) => review.overallRating)
+          .reduce((sum, review) => sum + (review.overallRating || 0), 0) / 3;
 
       if (recentAvg > previousAvg + 0.3) recentTrend = 'improving';
       else if (recentAvg < previousAvg - 0.3) recentTrend = 'declining';
@@ -328,13 +311,15 @@ export function calculatePropertyAnalytics(reviews: NormalizedReview[]): Propert
       ratingDistribution,
       recentTrend,
       topIssues,
-      approvedCount: guestReviews.filter((r) => r.isApprovedForWebsite).length,
+      approvedCount: guestReviews.filter((review) => review.isApprovedForWebsite).length,
       channelBreakdown
     });
   });
 
   // Sort by total reviews descending
-  return analytics.sort((a, b) => b.totalReviews - a.totalReviews);
+  return analytics.sort(
+    (analyticsA, analyticsB) => analyticsB.totalReviews - analyticsA.totalReviews
+  );
 }
 
 /**
@@ -347,4 +332,59 @@ export function paginateReviews(
 ): NormalizedReview[] {
   const start = (page - 1) * pageSize;
   return reviews.slice(start, start + pageSize);
+}
+
+/**
+ * Normalizes a single Google review to match NormalizedReview format
+ */
+export function normalizeGoogleReview(
+  review: GoogleReview,
+  listingName: string,
+  index: number,
+  approvedIds: Set<number> = new Set()
+): NormalizedReview {
+  const id = Math.abs(
+    review.name
+      .split('/')
+      .pop()
+      ?.split('')
+      .reduce((acc, char) => {
+        return acc + char.charCodeAt(0);
+      }, 0) || index + 100000
+  );
+
+  const submittedAt = new Date(review.publishTime);
+
+  return {
+    id,
+    type: 'guest-to-host',
+    status: 'published',
+    overallRating: review.rating,
+    averageRating: review.rating,
+    publicReview: review.text?.text || '',
+    // Google doesn't provide category breakdowns
+    categories: [],
+    submittedAt,
+    formattedDate: formatDate(review.publishTime),
+    guestName: review.authorAttribution?.displayName || 'Google User',
+    listingName,
+    listingId: generateListingId(listingName),
+    channel: 'google',
+    channelIcon: channelInfo.google.icon,
+    isApprovedForWebsite: approvedIds.has(id),
+    sentiment: determineSentiment(review.rating)
+  };
+}
+
+/**
+ * Normalizes an array of Google reviews
+ */
+export function normalizeGoogleReviews(
+  reviews: GoogleReview[],
+  listingName: string,
+  approvedIds: Set<number> = new Set()
+): NormalizedReview[] {
+  return reviews.map((review, index) =>
+    normalizeGoogleReview(review, listingName, index, approvedIds)
+  );
 }
