@@ -33,6 +33,9 @@ A comprehensive reviews management platform for Flex Living properties. Managers
 ## Quick Start
 
 ```bash
+# Clone this repository
+git clone git@github.com:pauloargenal/flex-living.git
+
 # Install dependencies
 npm install
 
